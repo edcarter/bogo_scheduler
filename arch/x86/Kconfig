@@ -1,3 +1,9 @@
+config SCHED_BOGO_POLICY
+	bool "BOGO scheduling policy"
+	default y
+	---help---
+	  Enables BOGO scheduling policy - pick random tasks to run
+
 # Select 32 or 64 bit
 config 64BIT
 	bool "64-bit kernel" if ARCH = "x86"
