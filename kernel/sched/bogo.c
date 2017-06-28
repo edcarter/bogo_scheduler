@@ -1,12 +1,11 @@
 #include "sched.h"
 
 /*
- * stop-task scheduling class.
+ * bogo scheduler:
+ * Round robin scheduler which picks random tasks to run.
+ * Inspired by bogo sort.
  *
- * The stop task is the highest priority task in the system, it preempts
- * everything and will be preempted by nothing.
- *
- * See kernel/stop_machine.c
+ * Written by Elias Carter
  */
 
 static void
