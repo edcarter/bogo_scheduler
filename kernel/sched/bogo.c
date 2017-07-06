@@ -1,5 +1,3 @@
-#include "sched.h"
-
 /*
  * bogo scheduler:
  * Round robin scheduler which picks random tasks to run.
@@ -7,6 +5,10 @@
  *
  * Written by Elias Carter
  */
+
+#include "sched.h"
+
+int bogo_rr_timeslice = 100;
 
 static void
 enqueue_task_bogo(struct rq *rq, struct task_struct *p, int flags)
