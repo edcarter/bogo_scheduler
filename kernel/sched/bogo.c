@@ -8,7 +8,7 @@
 
 #include "sched.h"
 
-int bogo_rr_timeslice = 100;
+int bogo_rr_timeslice = RR_TIMESLICE;
 
 static void
 enqueue_task_bogo(struct rq *rq, struct task_struct *p, int flags)
