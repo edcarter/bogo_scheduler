@@ -70,7 +70,9 @@ static void task_tick_bogo(struct rq *rq, struct task_struct *curr, int queued)
 static unsigned int
 get_rr_interval_bogo(struct rq *rq, struct task_struct *task)
 {
+	return bogo_rr_timeslice;
 }
+
 
 static void
 prio_changed_bogo(struct rq *rq, struct task_struct *p, int oldprio)
@@ -83,6 +85,7 @@ static void switched_to_bogo(struct rq *rq, struct task_struct *p)
 
 static void update_curr_bogo(struct rq *rq)
 {
+	/* TODO: timekeeping */
 }
 
 const struct sched_class bogo_sched_class = {
