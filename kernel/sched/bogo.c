@@ -8,6 +8,7 @@
 
 #include "sched.h"
 
+//TODO: dont piggyback off the RR timeslice value for the RT scheduler
 int bogo_rr_timeslice = RR_TIMESLICE;
 
 static void
@@ -51,6 +52,13 @@ static void set_curr_task_bogo(struct rq *rq)
 
 static void task_tick_bogo(struct rq *rq, struct task_struct *curr, int queued)
 {
+	update_curr_bogo(rq);
+
+	if (--curr->rt.time_slice)
+		return;
+
+	curr->rt.time_slice = bogo_rr_timeslice;
+	resched_curr(rq);
 }
 
 static unsigned int
