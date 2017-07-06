@@ -28,6 +28,11 @@ static void yield_task_bogo(struct rq *rq)
 static void
 check_preempt_curr_bogo(struct rq *rq, struct task_struct *p, int flags)
 {
+	/*
+	 * New tasks never preempt the currently running one.
+	 * The only way a task is preempted is when its time
+	 * slice runs out.
+	 */
 }
 
 static struct task_struct *
@@ -43,6 +48,7 @@ static void put_prev_task_bogo(struct rq *rq, struct task_struct *prev)
 static int
 select_task_rq_bogo(struct task_struct *p, int cpu, int sd_flag, int flags)
 {
+	return task_cpu(p); /* don't migrate tasks for now */
 }
 #endif /* CONFIG_SMP */
 
