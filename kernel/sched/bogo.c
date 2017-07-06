@@ -38,6 +38,17 @@ check_preempt_curr_bogo(struct rq *rq, struct task_struct *p, int flags)
 static struct task_struct *
 pick_next_task_bogo(struct rq *rq, struct task_struct *prev, struct rq_flags *rf)
 {
+	int rand, next_index;
+	struct task_struct next;
+
+	rand = get_random_bytes_arch(&rand, sizeof(rand));
+
+	/* lock rq */
+	next_index = rand % nr_running;
+	/* get that task */
+	/* unlock rq */
+
+	return next;
 }
 
 static void put_prev_task_bogo(struct rq *rq, struct task_struct *prev)
