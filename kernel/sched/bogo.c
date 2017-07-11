@@ -43,10 +43,10 @@ pick_next_task_bogo(struct rq *rq, struct task_struct *prev, struct rq_flags *rf
 
 	rand = get_random_bytes_arch(&rand, sizeof(rand));
 
-	/* lock rq */
+	raw_spin_lock(&rq->lock);
 	next_index = rand % nr_running;
 	/* get that task */
-	/* unlock rq */
+	raw_spin_unlock(&rq->lock);
 
 	return next;
 }
