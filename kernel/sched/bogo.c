@@ -41,12 +41,12 @@ static struct task_struct *
 pick_next_task_bogo(struct rq *rq, struct task_struct *prev, struct rq_flags *rf)
 {
 	int rand, next_index;
-	struct task_struct next;
+	struct task_struct *next;
 
 	get_random_bytes_arch(&rand, sizeof(rand));
 
 	raw_spin_lock(&rq->lock);
-	next_index = rand % nr_running;
+	next_index = rand % rq->nr_running;
 	/* get that task */
 	raw_spin_unlock(&rq->lock);
 
