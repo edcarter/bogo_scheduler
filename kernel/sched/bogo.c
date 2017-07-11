@@ -8,6 +8,8 @@
 
 #include "sched.h"
 
+#include <linux/random.h>
+
 //TODO: dont piggyback off the RR timeslice value for the RT scheduler
 int bogo_rr_timeslice = RR_TIMESLICE;
 
