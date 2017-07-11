@@ -13,6 +13,8 @@
 //TODO: dont piggyback off the RR timeslice value for the RT scheduler
 int bogo_rr_timeslice = RR_TIMESLICE;
 
+static void update_curr_bogo(struct rq *rq);
+
 static void
 enqueue_task_bogo(struct rq *rq, struct task_struct *p, int flags)
 {
