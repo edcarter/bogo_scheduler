@@ -18,7 +18,7 @@ int bogo_rr_timeslice = RR_TIMESLICE;
  * How many tasks can we hold in the bogo
  * runqueue initially.
  */
-unsigned int arry_init_sz = 100;
+#define arry_init_sz 100
 
 static void update_curr_bogo(struct rq *rq);
 
