@@ -6043,7 +6043,9 @@ void __init sched_init(void)
 		rq->nr_running = 0;
 		rq->calc_load_active = 0;
 		rq->calc_load_update = jiffies + LOAD_FREQ;
+#ifdef CONFIG_SCHED_BOGO_POLICY
 		init_bogo_rq(&rq->bogo);
+#endif /* CONFIG_SCHED_BOGO_POLICY */
 		init_cfs_rq(&rq->cfs);
 		init_rt_rq(&rq->rt);
 		init_dl_rq(&rq->dl);
