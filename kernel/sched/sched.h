@@ -393,11 +393,13 @@ struct cfs_bandwidth { };
 
 #endif	/* CONFIG_CGROUP_SCHED */
 
+#if CONFIG_SCHED_BOGO_POLICY
 /* Bogo-related fields in a runqueue */
 struct bogo_rq {
 	struct task_struct **task_arry;
 	unsigned int nr_running;
 };
+#endif /* CONFIG_SCHED_BOGO_POLICY */
 
 /* CFS-related fields in a runqueue */
 struct cfs_rq {
@@ -657,7 +659,9 @@ struct rq {
 	unsigned long nr_load_updates;
 	u64 nr_switches;
 
+#ifdef CONFIG_SCHED_BOGO_POLICY
 	struct bogo_rq bogo;
+#endif
 	struct cfs_rq cfs;
 	struct rt_rq rt;
 	struct dl_rq dl;
