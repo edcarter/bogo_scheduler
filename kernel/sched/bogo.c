@@ -9,11 +9,26 @@
 #include "sched.h"
 
 #include <linux/random.h>
+#include <linux/slab.h>
 
 //TODO: dont piggyback off the RR timeslice value for the RT scheduler
 int bogo_rr_timeslice = RR_TIMESLICE;
 
+/*
+ * How many tasks can we hold in the bogo
+ * runqueue initially.
+ */
+unsigned int arry_init_sz = 100;
+
 static void update_curr_bogo(struct rq *rq);
+
+void init_bogo_rq(struct bogo_rq *bogo_rq)
+{
+	unsigned int size;
+	size = arry_init_sz * sizeof(struct task_struct*);
+	bogo_rq->task_arry = kmalloc(size, GFP_NOWAIT);
+	bogo_rq->nr_running = 0;
+}
 
 static void
 enqueue_task_bogo(struct rq *rq, struct task_struct *p, int flags)
