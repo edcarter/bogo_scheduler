@@ -393,6 +393,12 @@ struct cfs_bandwidth { };
 
 #endif	/* CONFIG_CGROUP_SCHED */
 
+/* Bogo-related fields in a runqueue */
+struct bogo_rq {
+	struct task_struct *task_arry;
+	unsigned int nr_running;
+}
+
 /* CFS-related fields in a runqueue */
 struct cfs_rq {
 	struct load_weight load;
