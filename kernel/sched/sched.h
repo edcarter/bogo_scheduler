@@ -395,9 +395,9 @@ struct cfs_bandwidth { };
 
 /* Bogo-related fields in a runqueue */
 struct bogo_rq {
-	struct task_struct *task_arry;
+	struct task_struct **task_arry;
 	unsigned int nr_running;
-}
+};
 
 /* CFS-related fields in a runqueue */
 struct cfs_rq {
@@ -657,6 +657,7 @@ struct rq {
 	unsigned long nr_load_updates;
 	u64 nr_switches;
 
+	struct bogo_rq bogo;
 	struct cfs_rq cfs;
 	struct rt_rq rt;
 	struct dl_rq dl;

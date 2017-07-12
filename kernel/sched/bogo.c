@@ -18,11 +18,32 @@ static void update_curr_bogo(struct rq *rq);
 static void
 enqueue_task_bogo(struct rq *rq, struct task_struct *p, int flags)
 {
+	unsigned int nr_running;
+	struct bogo_rq * bogo_rq;
+	struct task_struct **task_arry;
+
+	raw_spin_lock(&rq->lock);
+	bogo_rq = &rq->bogo;
+	task_arry = bogo_rq->task_arry;
+	nr_running = bogo_rq->nr_running;
+
+
+	//TODO: realloc task_arry if we run out of room
+
+	task_arry[nr_running] = p;
+	nr_running++;
+	raw_spin_unlock(&rq->lock);
 }
 
 static void
 dequeue_task_bogo(struct rq *rq, struct task_struct *p, int flags)
 {
+	struct bogo_rq *bogo_rq;
+
+	raw_spin_lock(&rq->lock);
+	bogo_rq = &rq->bogo;
+	bogo_rq->nr_running--;
+	raw_spin_unlock(&rq->lock);
 }
 
 static void yield_task_bogo(struct rq *rq)
