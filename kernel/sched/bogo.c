@@ -18,7 +18,7 @@ int bogo_rr_timeslice = RR_TIMESLICE;
  * How many tasks can we hold in the bogo
  * runqueue initially.
  */
-#define arry_init_sz 100
+#define arry_init_sz 10
 
 static void update_curr_bogo(struct rq *rq);
 
@@ -37,7 +37,6 @@ enqueue_task_bogo(struct rq *rq, struct task_struct *p, int flags)
 	struct bogo_rq * bogo_rq;
 	struct task_struct **task_arry;
 
-	raw_spin_lock(&rq->lock);
 	bogo_rq = &rq->bogo;
 	task_arry = bogo_rq->task_arry;
 	nr_running = bogo_rq->nr_running;
@@ -47,7 +46,6 @@ enqueue_task_bogo(struct rq *rq, struct task_struct *p, int flags)
 
 	task_arry[nr_running] = p;
 	nr_running++;
-	raw_spin_unlock(&rq->lock);
 }
 
 static void
@@ -55,10 +53,8 @@ dequeue_task_bogo(struct rq *rq, struct task_struct *p, int flags)
 {
 	struct bogo_rq *bogo_rq;
 
-	raw_spin_lock(&rq->lock);
 	bogo_rq = &rq->bogo;
 	bogo_rq->nr_running--;
-	raw_spin_unlock(&rq->lock);
 }
 
 static void yield_task_bogo(struct rq *rq)
@@ -78,17 +74,18 @@ check_preempt_curr_bogo(struct rq *rq, struct task_struct *p, int flags)
 static struct task_struct *
 pick_next_task_bogo(struct rq *rq, struct task_struct *prev, struct rq_flags *rf)
 {
-	int rand, next_index;
+	unsigned int rand, next_index;
 	struct bogo_rq *bogo_rq;
 	struct task_struct *next;
 
-	get_random_bytes_arch(&rand, sizeof(rand));
+	next = NULL;
 
-	raw_spin_lock(&rq->lock);
 	bogo_rq = &rq->bogo;
-	next_index = rand % bogo_rq->nr_running;
-	next = bogo_rq->task_arry[next_index];
-	raw_spin_unlock(&rq->lock);
+	if (bogo_rq->nr_running) {
+		get_random_bytes_arch(&rand, sizeof(rand));
+		next_index = rand % bogo_rq->nr_running;
+		next = bogo_rq->task_arry[next_index];
+	}
 
 	return next;
 }
