@@ -148,7 +148,8 @@ static inline int dl_policy(int policy)
 static inline bool valid_policy(int policy)
 {
 	return idle_policy(policy) || fair_policy(policy) ||
-		rt_policy(policy) || dl_policy(policy);
+		rt_policy(policy) || dl_policy(policy) ||
+		bogo_policy(policy);
 }
 
 static inline int task_has_rt_policy(struct task_struct *p)
