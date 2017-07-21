@@ -8,8 +8,9 @@
 
 #include "sched.h"
 
-#include <linux/random.h>
-#include <linux/slab.h>
+#include <linux/random.h> /* get_random_bytes_arch */
+#include <linux/slab.h>   /* kmalloc */
+#include <linux/kernel.h> /* printk */
 
 //TODO: dont piggyback off the RR timeslice value for the RT scheduler
 int bogo_rr_timeslice = RR_TIMESLICE;
@@ -45,7 +46,8 @@ enqueue_task_bogo(struct rq *rq, struct task_struct *p, int flags)
 	//TODO: realloc task_arry if we run out of room
 
 	task_arry[nr_running] = p;
-	nr_running++;
+	bogo_rq->nr_running++;
+	add_nr_running(rq, 1);
 }
 
 static void
@@ -55,6 +57,7 @@ dequeue_task_bogo(struct rq *rq, struct task_struct *p, int flags)
 
 	bogo_rq = &rq->bogo;
 	bogo_rq->nr_running--;
+	sub_nr_running(rq, 1);
 }
 
 static void yield_task_bogo(struct rq *rq)
@@ -86,7 +89,6 @@ pick_next_task_bogo(struct rq *rq, struct task_struct *prev, struct rq_flags *rf
 		next_index = rand % bogo_rq->nr_running;
 		next = bogo_rq->task_arry[next_index];
 	}
-
 	return next;
 }
 
@@ -139,7 +141,7 @@ static void update_curr_bogo(struct rq *rq)
 }
 
 const struct sched_class bogo_sched_class = {
-	.next			= &rt_sched_class,
+	.next			= &dl_sched_class,
 
 	.enqueue_task		= enqueue_task_bogo,
 	.dequeue_task		= dequeue_task_bogo,
