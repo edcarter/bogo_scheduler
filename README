@@ -1,9 +1,6 @@
 Cusom Process Scheduler For Linux Kernel 4.11
 ============
 
-The bogo scheduler is a custom pre-emptive scheduler which chooses a random task to run from the runqueue.
-Pre-emption occurs when the time slice for a process runs out; all processes share the same time slice duration.
-After pre-emption, the scheduler will draw bytes from the kernel entropy pool and then use that number as a index into
-the ready to run queue to select the next process to run.
+The bogo scheduler is a custom pre-emptive scheduler which chooses a random task to run from the runqueue. Pre-emption occurs when the time slice for a process runs out; all processes share the same time slice duration. After pre-emption, the scheduler will draw bytes from the kernel entropy pool and then use that number as a index into the ready to run queue to select the next process to run.
 
 Hopefully this can be used as a guide for people wanted to implement their own linux kernel process scheduler.
