@@ -41,8 +41,7 @@ enqueue_task_bogo(struct rq *rq, struct task_struct *p, int flags)
 	bogo_rq = &rq->bogo;
 	task_arry = bogo_rq->task_arry;
 	nr_running = bogo_rq->nr_running;
-
-
+	
 	//TODO: realloc task_arry if we run out of room
 
 	task_arry[nr_running] = p;
