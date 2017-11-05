@@ -7,4 +7,4 @@ The bogo scheduler is a custom pre-emptive scheduler which chooses a random task
 
 Hopefully this can be used as a guide for people wanted to implement their own linux kernel process scheduler.
 
-There needs to be some userspace software written to set the scheduling policy of a process to BOGO, to see this code take a look at my bogo_scheduler_userspace repo.
+There needs to be some userspace software written to set the scheduling policy of a process from userspace to BOGO, to see this code take a look at my bogo_scheduler_userspace repo.
